@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import { View, FlatList, SectionList, Text } from 'react-native'
+import { Link } from 'expo-router'
 
 import { CategoryButton } from '@/components/category-button'
 import { Header } from '@/components/header'
@@ -52,12 +53,17 @@ export default function Home() {
         keyExtractor={item => item.id}
         stickySectionHeadersEnabled={false}
         renderItem={({ item }) => (
-          <Product data={item} />
+          <Link href={`/product/${item.id}`} asChild>
+            <Product data={item} />
+          </Link>
         )}
         renderSectionHeader={(
           { section: { title } }
         ) => (
-          <Text className='text-white text-xl mt-8 mb-3'>{title}</Text>
+          <Text
+            className='text-white text-xl mt-8 mb-3'>
+            {title}
+          </Text>
         )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }} // respiro no final da aplicação
