@@ -5,6 +5,7 @@ interface ProductDataProps {
   title: string
   description: string
   thumbnail: ImageProps
+  quantity?: number // Quantidade só é exibida no carrinho
 }
 
 interface ProductProps extends TouchableOpacityProps {
@@ -17,7 +18,22 @@ export const Product = forwardRef<TouchableOpacity, ProductProps>(({ data, ...pr
       <Image source={data.thumbnail} className="w-20 h-20 rounded-md" />
 
       <View className="flex-1 ml-3">
-        <Text className="text-slate-100 font-subtitle text-base flax-1">{data.title}</Text>
+        <View className='flex-row items-center justify-between'>
+          <Text
+            className="text-slate-100 font-subtitle text-base flax-1">
+            {data.title}
+          </Text>
+
+          {
+            data.quantity && <Text className='text-lime-300  font-subtitle text-xs'>
+              x{
+                data.quantity
+              }
+            </Text>
+          }
+        </View>
+
+
         <Text className="text-slate-400 text-xs leading-5 mt-0.5">{data.description}</Text>
       </View>
     </TouchableOpacity>
