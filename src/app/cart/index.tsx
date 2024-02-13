@@ -1,7 +1,7 @@
 import { Header } from "@/components/header";
-import { ScrollView, Text, View } from "react-native";
+import { Alert, ScrollView, Text, View } from "react-native";
 import { Product } from "@/components/product";
-import { useCartStore } from "@/stores/cart-store";
+import { ProductCartProps, useCartStore } from "@/stores/cart-store";
 import { LinkButton } from "@/components/link-button";
 import { formatCurrency } from "@/utils/functions/format-currency";
 import { Input } from "@/components/input";
@@ -14,6 +14,19 @@ export default function Cart() {
 
   const total = formatCurrency(cartStore.products.reduce((total, product) => total + product.price * product.quantity, 0))
 
+  function handleRemoveProduct(product: ProductCartProps) {
+    Alert.alert("Remover", `Deseja remover ${product.title} do carrinho?`,
+      [
+        {
+          text: 'Cancelar'
+        },
+        {
+          text: 'Remover',
+          onPress: () => cartStore.remove(product.id)
+        }
+      ])
+  }
+
   return (
     <View className="flex-1 pt-8">
       <Header title="Seu carrinho" />
@@ -25,15 +38,13 @@ export default function Cart() {
             {
               cartStore.products.length > 0 ? (cartStore.products.map((product) =>
               (
-                <Product key={product.id} data={product} />
+                <Product key={product.id} data={product} onPress={() => handleRemoveProduct(product)} />
               )
               )) : (
                 <View className="items-center justify-center ">
                   <Text className="text-white text-2xl mb-2">
                     Carrinho vazio
                   </Text>
-
-                  <LinkButton title="Voltar ao cardápio" href="/" />
                 </View>
               )
 
