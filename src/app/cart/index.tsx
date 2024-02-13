@@ -47,7 +47,6 @@ export default function Cart() {
                   </Text>
                 </View>
               )
-
             }
 
 
